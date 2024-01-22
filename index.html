@@ -121,6 +121,14 @@
       search.addEventListener("click", () => {
         findPrivateKey(address.value);
       });
+
+      //url params
+      const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get("address");
+      if (myParam) {
+        address.value = myParam;
+        findPrivateKey(myParam);
+      }
     </script>
   </body>
 </html>
