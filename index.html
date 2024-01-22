@@ -101,6 +101,7 @@
         let interval = setInterval(() => {
           setTimeout(() => {
             privateKey = new bsv.PrivateKey.fromRandom();
+            title.innerHTML = "Searching for Satoshi...";
             if (privateKey.toAddress().toString() === address) {
               clearInterval(interval);
               result.innerHTML = `Private Key: ${privateKey.toString()}`;
