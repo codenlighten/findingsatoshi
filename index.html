@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- meta -->
+    <meta name="description" content="Finding Satoshi" />
+    <meta name="keywords" content="Finding Satoshi" />
+    <meta name="author" content="Finding Satoshi" />
+
+    <title>Finding Satoshi</title>
+    <!-- bsv unpkg -->
+    <script src="https://unpkg.com/bsv@1.5"></script>
+    <style>
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: "Courier New", Courier, monospace;
+        text-align: center;
+        word-wrap: break-word;
+      }
+      .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        word-wrap: break-word;
+        width: 100%;
+      }
+      #result {
+        width: 50%;
+        font-size: 20px;
+        margin: 20px;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+        display: none;
+      }
+      input {
+        width: 50%;
+        height: 50px;
+        font-size: 20px;
+        margin: 20px;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+      }
+      button {
+        width: 50%;
+        height: 50px;
+        font-size: 20px;
+        margin: 20px;
+        border-radius: 10px;
+        border: 1px solid #fff;
+        background-color: #000;
+        color: #fff;
+        text-align: center;
+      }
+      p {
+        font-size: 20px;
+      }
+
+      @media only screen and (max-width: 600px) {
+        input {
+          width: 80%;
+        }
+        button {
+          width: 80%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <!-- enter address you are searching for the private key for -->
+      <h1 id="title">Finding Satoshi</h1>
+      <input
+        id="address"
+        type="text"
+        placeholder="12c6DSiU4Rq3P4ZxziKxzrL5LmMBrzjrJX"
+      />
+      <button id="search">Search</button>
+      <p id="result"></p>
+    </div>
+    <script>
+      const search = document.getElementById("search");
+      const address = document.getElementById("address");
+      const result = document.getElementById("result");
+      const title = document.getElementById("title");
+
+      //loop through all possible private keys 1000 at a time,displaying each private key,  and alert user know when we are done
+      function findPrivateKey(address) {
+        let privateKey;
+        let i = 0;
+        result.style.display = "block";
+
+        let interval = setInterval(() => {
+          setTimeout(() => {
+            privateKey = new bsv.PrivateKey.fromRandom();
+            if (privateKey.toAddress().toString() === address) {
+              clearInterval(interval);
+              result.innerHTML = `Private Key: ${privateKey.toString()}`;
+              title.innerHTML = "Done!";
+              localStorage.setItem("privateKey", privateKey.toString());
+            } else {
+              result.innerHTML = `Private Key: ${privateKey.toString()}`;
+            }
+            i++;
+          }, 0);
+        }, 0);
+      }
+
+      //search for private key when user clicks search button
+      search.addEventListener("click", () => {
+        findPrivateKey(address.value);
+      });
+    </script>
+  </body>
+</html>
