@@ -78,6 +78,7 @@
     <div class="main">
       <!-- enter address you are searching for the private key for -->
       <h1 id="title">Finding Satoshi</h1>
+      <p id="iteration"></p>
       <input
         id="address"
         type="text"
@@ -91,7 +92,7 @@
       const address = document.getElementById("address");
       const result = document.getElementById("result");
       const title = document.getElementById("title");
-
+      const iteration = document.getElementById("iteration");
       //loop through all possible private keys 1000 at a time,displaying each private key,  and alert user know when we are done
       function findPrivateKey(address) {
         let privateKey;
@@ -100,6 +101,7 @@
 
         let interval = setInterval(() => {
           setTimeout(() => {
+            iteration.innerHTML = `Iteration: ${i + 1}`;
             privateKey = new bsv.PrivateKey.fromRandom();
             title.innerHTML = "Searching for Satoshi...";
             if (privateKey.toAddress().toString() === address) {
