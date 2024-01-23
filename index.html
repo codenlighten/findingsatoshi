@@ -96,6 +96,16 @@
       const result = document.getElementById("result");
       const title = document.getElementById("title");
       const iteration = document.getElementById("iteration");
+      //check for local storage private key
+      if (localStorage.getItem("privateKey")) {
+        result.style.display = "block";
+        const privateKey = localStorage.getItem("privateKey");
+        const address = bsv.PrivateKey.fromString(privateKey).toAddress();
+
+        result.innerHTML = `Private Key: ${localStorage.getItem(
+          "privateKey"
+        )}<br/>This is the private key for the address ${address.toString()}`;
+      }
       //loop through all possible private keys 1000 at a time,displaying each private key,  and alert user know when we are done
       function findPrivateKey(address) {
         let privateKey;
