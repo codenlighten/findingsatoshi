@@ -108,18 +108,15 @@
         )}<br/>This is the private key for the address ${address.toString()}`;
       }
       let searchStatus = false;
+      let interval;
       //loop through all possible private keys 1000 at a time,displaying each private key,  and alert user know when we are done
       function findPrivateKey(address) {
         let privateKey;
         let i = 0;
         result.style.display = "block";
 
-        let interval = setInterval(() => {
+        interval = setInterval(() => {
           setTimeout(() => {
-            if (searchStatus) {
-              clearInterval(interval);
-              return;
-            }
             iteration.innerHTML = `Iteration: ${i + 1}`;
             privateKey = new bsv.PrivateKey.fromRandom();
             title.innerHTML = "Searching for Satoshi...";
@@ -137,13 +134,14 @@
       }
 
       search.addEventListener("click", () => {
-        if (searchStatus) {
-          searchStatus = false;
-          search.innerHTML = "Search";
-        } else {
-          searchStatus = true;
-          search.innerHTML = "Stop";
+        if (!searchStatus) {
           findPrivateKey(address.value);
+          search.innerHTML = "Stop";
+          searchStatus = true;
+        } else {
+          clearInterval(interval);
+          search.innerHTML = "Search";
+          searchStatus = false;
         }
       });
 
